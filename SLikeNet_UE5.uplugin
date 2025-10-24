@@ -1,0 +1,23 @@
+{
+	"FileVersion": 3,
+	"Version": 1,
+	"VersionName": "1.0",
+	"FriendlyName": "SLikeNet_UE5",
+	"Description": "",
+	"Category": "Networking",
+	"CreatedBy": "Blika",
+	"CreatedByURL": "",
+	"DocsURL": "",
+	"MarketplaceURL": "",
+	"SupportURL": "",
+	"CanContainContent": false,
+	"IsBetaVersion": false,
+	"IsExperimentalVersion": false,
+	"Modules": [
+		{
+			"Name": "SLikeNet_UE5",
+			"Type": "Runtime",
+			"LoadingPhase": "Default"
+		}
+	]
+}
