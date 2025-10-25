@@ -443,23 +443,13 @@ const int PING_TIMES_ARRAY_SIZE = 5;
 
 struct RAK_DLL_EXPORT uint24_t
 {
-	uint32_t val = 0u;
+	uint32_t val;
 
-	uint24_t(){} 
+	uint24_t(): val(0){} 
 	inline operator uint32_t() { return val; }
 	inline operator uint32_t() const { return val; }
 
-	inline uint24_t(const uint24_t& a){
-		if(this == nullptr || !val){
-			val = 0u;
-			return;
-		}
-		if(!a || !a.val){
-			val = 0u;
-			return;
-		}
-		val=a.val;
-	}
+	inline uint24_t(const uint24_t& a){val=a.val;}
 	inline uint24_t operator++() {++val; val&=0x00FFFFFF; return *this;}
 	inline uint24_t operator--() {--val; val&=0x00FFFFFF; return *this;}
 	inline uint24_t operator++(int) {uint24_t temp(val); ++val; val&=0x00FFFFFF; return temp;}
