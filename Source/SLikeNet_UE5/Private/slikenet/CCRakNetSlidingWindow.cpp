@@ -107,11 +107,17 @@ bool CCRakNetSlidingWindow::ShouldSendACKs(CCTimeType curTime, CCTimeType estima
 // ----------------------------------------------------------------------------------------------------------------------------
 DatagramSequenceNumberType CCRakNetSlidingWindow::GetNextDatagramSequenceNumber(void)
 {
+    if(this == nullptr){
+        return DatagramSequenceNumberType();
+    }
 	return nextDatagramSequenceNumber;
 }
 // ----------------------------------------------------------------------------------------------------------------------------
 DatagramSequenceNumberType CCRakNetSlidingWindow::GetAndIncrementNextDatagramSequenceNumber(void)
 {
+    if(this == nullptr){
+        return DatagramSequenceNumberType();
+    }
 	DatagramSequenceNumberType dsnt=nextDatagramSequenceNumber;
 	nextDatagramSequenceNumber++;
 	return dsnt;

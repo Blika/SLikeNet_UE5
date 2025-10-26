@@ -440,46 +440,49 @@ const NetworkID UNASSIGNED_NETWORK_ID = (uint64_t) -1;
 
 const int PING_TIMES_ARRAY_SIZE = 5;
 
+//only problems come from this one
+struct RAK_DLL_EXPORT uint24_t{
+	uint32_t val = 0;
 
-struct RAK_DLL_EXPORT uint24_t
-{
-	uint32_t val;
+	uint24_t() = default;
+	uint24_t(const uint24_t&) = default;
+	uint24_t& operator=(const uint24_t&) = default;
 
-	uint24_t(): val(0){} 
-	inline operator uint32_t() { return val; }
-	inline operator uint32_t() const { return val; }
+	operator uint32_t() const { return val; }
+	
+	uint24_t operator++() { ++val; val &= 0x00FFFFFF; return *this; }
+	uint24_t operator--() { --val; val &= 0x00FFFFFF; return *this; }
+	uint24_t operator++(int) { uint24_t temp(*this); ++val; val &= 0x00FFFFFF; return temp; }
+	uint24_t operator--(int) { uint24_t temp(*this); --val; val &= 0x00FFFFFF; return temp; }
+	
+	uint24_t& operator+=(const uint24_t& a) { val += a.val; val &= 0x00FFFFFF; return *this; }
+	uint24_t& operator-=(const uint24_t& a) { val -= a.val; val &= 0x00FFFFFF; return *this; }
+	
+	bool operator==(const uint24_t& right) const { return val == right.val; }
+	bool operator!=(const uint24_t& right) const { return val != right.val; }
+	bool operator>(const uint24_t& right) const { return val > right.val; }
+	bool operator<(const uint24_t& right) const { return val < right.val; }
+	
+	uint24_t operator+(const uint24_t& other) const { return uint24_t(val + other.val); }
+	uint24_t operator-(const uint24_t& other) const { return uint24_t(val - other.val); }
+	uint24_t operator/(const uint24_t& other) const { return uint24_t(val / other.val); }
+	uint24_t operator*(const uint24_t& other) const { return uint24_t(val * other.val); }
 
-	inline uint24_t(const uint24_t& a){val=a.val;}
-	inline uint24_t operator++() {++val; val&=0x00FFFFFF; return *this;}
-	inline uint24_t operator--() {--val; val&=0x00FFFFFF; return *this;}
-	inline uint24_t operator++(int) {uint24_t temp(val); ++val; val&=0x00FFFFFF; return temp;}
-	inline uint24_t operator--(int) {uint24_t temp(val); --val; val&=0x00FFFFFF; return temp;}
-	inline uint24_t operator&(const uint24_t& a) {return uint24_t(val&a.val);}
-	inline uint24_t& operator=(const uint24_t& a) { val=a.val; return *this; }
-	inline uint24_t& operator+=(const uint24_t& a) { val+=a.val; val&=0x00FFFFFF; return *this; }
-	inline uint24_t& operator-=(const uint24_t& a) { val-=a.val; val&=0x00FFFFFF; return *this; }
-	inline bool operator==( const uint24_t& right ) const {return val==right.val;}
-	inline bool operator!=( const uint24_t& right ) const {return val!=right.val;}
-	inline bool operator > ( const uint24_t& right ) const {return val>right.val;}
-	inline bool operator < ( const uint24_t& right ) const {return val<right.val;}
-	inline const uint24_t operator+( const uint24_t &other ) const { return uint24_t(val+other.val); }
-	inline const uint24_t operator-( const uint24_t &other ) const { return uint24_t(val-other.val); }
-	inline const uint24_t operator/( const uint24_t &other ) const { return uint24_t(val/other.val); }
-	inline const uint24_t operator*( const uint24_t &other ) const { return uint24_t(val*other.val); }
-
-	inline uint24_t(const uint32_t& a) {val=a; val&=0x00FFFFFF;}
-	inline uint24_t operator&(const uint32_t& a) {return uint24_t(val&a);}
-	inline uint24_t& operator=(const uint32_t& a) { val=a; val&=0x00FFFFFF; return *this; }
-	inline uint24_t& operator+=(const uint32_t& a) { val+=a; val&=0x00FFFFFF; return *this; }
-	inline uint24_t& operator-=(const uint32_t& a) { val-=a; val&=0x00FFFFFF; return *this; }
-	inline bool operator==( const uint32_t& right ) const {return val==(right&0x00FFFFFF);}
-	inline bool operator!=( const uint32_t& right ) const {return val!=(right&0x00FFFFFF);}
-	inline bool operator > ( const uint32_t& right ) const {return val>(right&0x00FFFFFF);}
-	inline bool operator < ( const uint32_t& right ) const {return val<(right&0x00FFFFFF);}
-	inline const uint24_t operator+( const uint32_t &other ) const { return uint24_t(val+other); }
-	inline const uint24_t operator-( const uint32_t &other ) const { return uint24_t(val-other); }
-	inline const uint24_t operator/( const uint32_t &other ) const { return uint24_t(val/other); }
-	inline const uint24_t operator*( const uint32_t &other ) const { return uint24_t(val*other); }
+	uint24_t(const uint32_t& a) { val = a & 0x00FFFFFF; }
+	uint24_t& operator=(const uint32_t& a) { val = a & 0x00FFFFFF; return *this; }
+	
+	uint24_t& operator+=(const uint32_t& a) { val += a; val &= 0x00FFFFFF; return *this; }
+	uint24_t& operator-=(const uint32_t& a) { val -= a; val &= 0x00FFFFFF; return *this; }
+	
+	bool operator==(const uint32_t& right) const { return val == (right & 0x00FFFFFF); }
+	bool operator!=(const uint32_t& right) const { return val != (right & 0x00FFFFFF); }
+	bool operator>(const uint32_t& right) const { return val > (right & 0x00FFFFFF); }
+	bool operator<(const uint32_t& right) const { return val < (right & 0x00FFFFFF); }
+	
+	uint24_t operator+(const uint32_t& other) const { return uint24_t(val + other); }
+	uint24_t operator-(const uint32_t& other) const { return uint24_t(val - other); }
+	uint24_t operator/(const uint32_t& other) const { return uint24_t(val / other); }
+	uint24_t operator*(const uint32_t& other) const { return uint24_t(val * other); }
 };
 
 } // namespace SLNet
